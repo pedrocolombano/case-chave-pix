@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: user-ms
+
+server:
+  port: 8001
