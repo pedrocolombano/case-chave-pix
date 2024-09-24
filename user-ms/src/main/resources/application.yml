@@ -2,5 +2,8 @@ spring:
   application:
     name: user-ms
 
+  jpa:
+    open-in-view: false
+
 server:
   port: 8001
