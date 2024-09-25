@@ -13,7 +13,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreateUserDto {
+public class UserInsertDto {
 
     @Size(min = 4, max = 30, message = "{invalid.field.size}")
     private String firstName;
