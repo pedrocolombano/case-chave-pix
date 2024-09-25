@@ -1,6 +1,6 @@
 package br.com.itau.userms.mapper;
 
-import br.com.itau.userms.model.dto.request.CreateUserDto;
+import br.com.itau.userms.model.dto.request.UserInsertDto;
 import br.com.itau.userms.model.dto.response.UserDto;
 import br.com.itau.userms.model.entity.User;
 import br.com.itau.userms.model.enumerated.PersonType;
@@ -9,15 +9,15 @@ import org.springframework.stereotype.Component;
 @Component
 public class UserMapper {
 
-    public User fromDtoToEntity(final CreateUserDto createUserDto) {
+    public User fromDtoToEntity(final UserInsertDto userInsertDto) {
         User user = new User();
 
-        user.setFirstName(createUserDto.getFirstName());
-        user.setSurname(createUserDto.getSurname());
-        user.setEmail(createUserDto.getEmail());
-        user.setDocument(createUserDto.getDocument());
-        user.setTaxId(createUserDto.getTaxId());
-        user.setPersonType(PersonType.getByAbbreviation(createUserDto.getPersonType()));
+        user.setFirstName(userInsertDto.getFirstName());
+        user.setSurname(userInsertDto.getSurname());
+        user.setEmail(userInsertDto.getEmail());
+        user.setDocument(userInsertDto.getDocument());
+        user.setTaxId(userInsertDto.getTaxId());
+        user.setPersonType(PersonType.getByAbbreviation(userInsertDto.getPersonType()));
 
         return user;
     }

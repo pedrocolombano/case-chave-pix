@@ -1,7 +1,7 @@
 package br.com.itau.userms.service;
 
 import br.com.itau.userms.mapper.UserMapper;
-import br.com.itau.userms.model.dto.request.CreateUserDto;
+import br.com.itau.userms.model.dto.request.UserInsertDto;
 import br.com.itau.userms.model.dto.response.UserDto;
 import br.com.itau.userms.model.entity.User;
 import br.com.itau.userms.repository.UserRepository;
@@ -19,8 +19,8 @@ public class UserService {
     private final UserRepository userRepository;
 
     @Transactional
-    public UserDto insert(final CreateUserDto createUserDto) {
-        User user = userMapper.fromDtoToEntity(createUserDto);
+    public UserDto insert(final UserInsertDto userInsertDto) {
+        User user = userMapper.fromDtoToEntity(userInsertDto);
 
         user.setCreatedAt(LocalDateTime.now());
         user.setUpdatedAt(LocalDateTime.now());
