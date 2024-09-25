@@ -18,7 +18,7 @@ public class CreateUserDto {
     @Size(min = 4, max = 30, message = "{invalid.field.size}")
     private String firstName;
 
-    @Size(min = 4, max = 30, message = "{invalid.field.size}")
+    @Size(min = 4, max = 45, message = "{invalid.field.size}")
     private String surname;
 
     @NotBlank(message = "{field.not.empty}")

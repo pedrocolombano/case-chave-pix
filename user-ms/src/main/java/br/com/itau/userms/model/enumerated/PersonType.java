@@ -1,5 +1,6 @@
 package br.com.itau.userms.model.enumerated;
 
+import br.com.itau.userms.exception.InvalidEnumConstantException;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -19,7 +20,7 @@ public enum PersonType {
             }
         }
         String error = String.format("O tipo de pessoa '%s' não é válido. Os valores aceitos são F e J.", abbreviation);
-        throw new IllegalArgumentException(error);
+        throw new InvalidEnumConstantException(error);
     }
 
 }
