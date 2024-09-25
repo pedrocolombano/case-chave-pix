@@ -3,8 +3,6 @@ package br.com.itau.userms.model.enumerated;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-import java.util.List;
-
 @Getter
 @AllArgsConstructor
 public enum PersonType {
@@ -20,9 +18,8 @@ public enum PersonType {
                 return personType;
             }
         }
-        throw new IllegalArgumentException(String.format("'%s' is not a valid person type. The accepted values are %s.",
-                                                         abbreviation,
-                                                         List.of(values())));
+        String error = String.format("O tipo de pessoa '%s' não é válido. Os valores aceitos são F e J.", abbreviation);
+        throw new IllegalArgumentException(error);
     }
 
 }

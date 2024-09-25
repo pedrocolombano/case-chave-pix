@@ -3,6 +3,7 @@ package br.com.itau.userms.mapper;
 import br.com.itau.userms.model.dto.request.CreateUserDto;
 import br.com.itau.userms.model.dto.response.UserDto;
 import br.com.itau.userms.model.entity.User;
+import br.com.itau.userms.model.enumerated.PersonType;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -16,7 +17,7 @@ public class UserMapper {
         user.setEmail(createUserDto.getEmail());
         user.setDocument(createUserDto.getDocument());
         user.setTaxId(createUserDto.getTaxId());
-        user.setPersonType(createUserDto.getPersonType());
+        user.setPersonType(PersonType.getByAbbreviation(createUserDto.getPersonType()));
 
         return user;
     }

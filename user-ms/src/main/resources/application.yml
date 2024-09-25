@@ -1,9 +1,17 @@
 spring:
   application:
     name: user-ms
-
   jpa:
     open-in-view: false
+  messages:
+    encoding: UTF-8
 
 server:
   port: 8001
+  tomcat:
+    uri-encoding: UTF-8
+  servlet:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
