@@ -33,7 +33,7 @@ public class UserInsertDto {
              message = "{invalid.taxid}")
     private String taxId;
 
-    @Size(min = 1, max = 1, message = "{invalid.field.size}")
+    @NotBlank(message = "{field.not.empty}")
     private String personType;
 
 }

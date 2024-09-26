@@ -36,7 +36,8 @@ public class User {
     @Column(length = 14, nullable = false)
     private String taxId;
 
-    @Column(length = 1, nullable = false)
+    @Enumerated(EnumType.STRING)
+    @Column(length = 7, nullable = false)
     private PersonType personType;
 
     @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE", nullable = false)

@@ -34,7 +34,7 @@ public class UserServiceTest {
 
     @Test
     public void insertShouldSaveUserAndReturnDto() {
-        UserInsertDto insertDto = UserFactory.createUserInsertionDto("123456789", "12345678901", "F");
+        UserInsertDto insertDto = UserFactory.createUserInsertionDto("123456789", "12345678901", "NATURAL");
         User entity = UserFactory.createUser(1L, "123456789", "12345678901", PersonType.NATURAL);
         UserDto userDto = UserFactory.createUserDto(1L, "123456789", "12345678901", PersonType.NATURAL);
 

@@ -21,7 +21,7 @@ public class UserMapperTest {
     public void fromDtoToEntityShouldConvertDtoDataToEntity() {
         UserInsertDto requestDto = UserFactory.createUserInsertionDto("123456789",
                                                                       "12345678901234",
-                                                                      "J");
+                                                                      "LEGAL");
 
         User userDto = userMapper.fromDtoToEntity(requestDto);
 
@@ -29,7 +29,7 @@ public class UserMapperTest {
         Assertions.assertEquals(requestDto.getSurname(), userDto.getSurname());
         Assertions.assertEquals(requestDto.getEmail(), userDto.getEmail());
         Assertions.assertEquals(requestDto.getDocument(), userDto.getDocument());
-        Assertions.assertEquals(requestDto.getPersonType(), userDto.getPersonType().getAbbreviation());
+        Assertions.assertEquals(requestDto.getPersonType(), userDto.getPersonType().name());
         Assertions.assertEquals(requestDto.getTaxId(), userDto.getTaxId());
     }
 

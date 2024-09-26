@@ -17,7 +17,7 @@ public class UserMapper {
         user.setEmail(userInsertDto.getEmail());
         user.setDocument(userInsertDto.getDocument());
         user.setTaxId(userInsertDto.getTaxId());
-        user.setPersonType(PersonType.getByAbbreviation(userInsertDto.getPersonType()));
+        user.setPersonType(PersonType.getByName(userInsertDto.getPersonType()));
 
         return user;
     }

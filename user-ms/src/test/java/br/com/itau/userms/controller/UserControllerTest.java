@@ -38,7 +38,7 @@ public class UserControllerTest {
 
     @Test
     public void insertUserShouldCreateAndReturnUserDto() throws Exception {
-        UserInsertDto dto = UserFactory.createUserInsertionDto("123456789", "12345678901", "F");
+        UserInsertDto dto = UserFactory.createUserInsertionDto("123456789", "12345678901", "NATURAL");
         UserDto createdUser = UserFactory.createUserDto(1L, "123456789", "12345678901", PersonType.NATURAL);
 
         when(userService.insert(any(UserInsertDto.class))).thenReturn(createdUser);
@@ -61,7 +61,7 @@ public class UserControllerTest {
 
     @Test
     public void insertShouldThrowUnprocessableEntityStatusWithValidationErrorsWhenUserDataIsNotValid() throws Exception {
-        UserInsertDto dto = UserFactory.createUserInsertionDto("12345678911111111", "12345678901", "F");
+        UserInsertDto dto = UserFactory.createUserInsertionDto("12345678911111111", "12345678901", "NATURAL");
 
         String json = objectMapper.writeValueAsString(dto);
 
@@ -79,7 +79,7 @@ public class UserControllerTest {
 
     @Test
     public void insertShouldThrowUnprocessableEntityStatusWhenPersonTypeIsInvalid() throws Exception {
-        UserInsertDto dto = UserFactory.createUserInsertionDto("123456789", "12345678901", "X");
+        UserInsertDto dto = UserFactory.createUserInsertionDto("123456789", "12345678901", "ABCDE");
 
         String message = String.format("O tipo de pessoa '%s' não é válido. Os valores aceitos são F e J.", dto.getPersonType());
         when(userService.insert(any(UserInsertDto.class))).thenThrow(new InvalidEnumConstantException(message));

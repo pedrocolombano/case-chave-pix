@@ -4,23 +4,23 @@ import br.com.itau.userms.exception.InvalidEnumConstantException;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+import java.util.List;
+
 @Getter
 @AllArgsConstructor
 public enum PersonType {
 
-    LEGAL("J"),
-    NATURAL("F");
+    LEGAL,
+    NATURAL;
 
-    private final String abbreviation;
-
-    public static PersonType getByAbbreviation(String abbreviation) {
-        for (PersonType personType : values()) {
-            if (personType.getAbbreviation().equalsIgnoreCase(abbreviation)) {
-                return personType;
-            }
+    public static PersonType getByName(String name) {
+        try {
+            return PersonType.valueOf(name);
+        } catch (IllegalArgumentException e) {
+            String error = String.format("O tipo de pessoa '%s' não é válido. Os valores aceitos são %s.", name,
+                                                                                                           List.of(values()));
+            throw new InvalidEnumConstantException(error);
         }
-        String error = String.format("O tipo de pessoa '%s' não é válido. Os valores aceitos são F e J.", abbreviation);
-        throw new InvalidEnumConstantException(error);
     }
 
 }
