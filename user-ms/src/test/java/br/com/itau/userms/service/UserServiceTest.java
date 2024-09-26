@@ -1,5 +1,6 @@
 package br.com.itau.userms.service;
 
+import br.com.itau.userms.exception.ResourceNotFoundException;
 import br.com.itau.userms.mapper.UserMapper;
 import br.com.itau.userms.model.dto.request.UserInsertDto;
 import br.com.itau.userms.model.dto.response.UserDto;
@@ -12,9 +13,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.*;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(SpringExtension.class)
 public class UserServiceTest {
@@ -50,6 +52,31 @@ public class UserServiceTest {
 
         assertNotNull(user.getCreatedAt());
         assertNotNull(user.getUpdatedAt());
+    }
+
+    @Test
+    public void findByIdShouldReturnUserDtoWhenUserExists() {
+        long existentId = 1L;
+        User entity = UserFactory.createUser(existentId, "123456789", "12345678901", PersonType.NATURAL);
+        UserDto userDto = UserFactory.createUserDto(existentId, "123456789", "12345678901", PersonType.NATURAL);
+
+        when(userRepository.findById(existentId)).thenReturn(Optional.of(entity));
+        when(userMapper.fromEntityToDto(entity)).thenReturn(userDto);
+
+        UserDto foundUser = userService.findById(existentId);
+
+        assertNotNull(foundUser);
+        verify(userRepository, times(1)).findById(existentId);
+        verify(userMapper, times(1)).fromEntityToDto(entity);
+    }
+
+    @Test
+    public void findByIdShouldThrowResourceNotFoundExceptionWhenUserDoesNotExists() {
+        long nonExistentId = 1L;
+        when(userRepository.findById(nonExistentId)).thenThrow(ResourceNotFoundException.class);
+
+        assertThrows(ResourceNotFoundException.class, () -> userService.findById(nonExistentId));
+        verify(userRepository, times(1)).findById(nonExistentId);
     }
 
 }
