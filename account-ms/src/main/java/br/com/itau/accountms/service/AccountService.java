@@ -1,5 +1,6 @@
 package br.com.itau.accountms.service;
 
+import br.com.itau.accountms.exception.ResourceNotFoundException;
 import br.com.itau.accountms.mapper.AccountMapper;
 import br.com.itau.accountms.model.dto.request.AccountRegistrationDto;
 import br.com.itau.accountms.model.dto.response.AccountDto;
@@ -31,6 +32,14 @@ public class AccountService {
         account.setUpdatedAt(LocalDateTime.now());
 
         accountRepository.save(account);
+        return accountMapper.fromEntityToDto(account);
+    }
+
+    @Transactional(readOnly = true)
+    public AccountDto findById(final Long id) {
+        Account account = accountRepository.findById(id)
+                                           .orElseThrow(() -> new ResourceNotFoundException("Conta não encontrada."));
+
         return accountMapper.fromEntityToDto(account);
     }
 

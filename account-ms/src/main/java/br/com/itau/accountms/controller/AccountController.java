@@ -4,12 +4,11 @@ import br.com.itau.accountms.model.dto.request.AccountRegistrationDto;
 import br.com.itau.accountms.model.dto.response.AccountDto;
 import br.com.itau.accountms.service.AccountService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import java.net.URI;
 
 @RestController
 @RequestMapping("/accounts")
@@ -21,7 +20,19 @@ public class AccountController {
     @PostMapping
     public ResponseEntity<AccountDto> register(@RequestBody AccountRegistrationDto accountRegistrationDto) {
         AccountDto response = accountService.register(accountRegistrationDto);
-        return new ResponseEntity<>(response, HttpStatus.CREATED);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
+                                             .path("/{id}")
+                                             .buildAndExpand(response.getId())
+                                             .toUri();
+
+        return ResponseEntity.created(uri)
+                             .body(response);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<AccountDto> findById(@PathVariable Long id) {
+        AccountDto response = accountService.findById(id);
+        return ResponseEntity.ok(response);
     }
 
 }
