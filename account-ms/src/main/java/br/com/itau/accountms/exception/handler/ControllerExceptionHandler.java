@@ -1,5 +1,6 @@
 package br.com.itau.accountms.exception.handler;
 
+import br.com.itau.accountms.exception.InvalidEnumConstantException;
 import br.com.itau.accountms.exception.ResourceNotFoundException;
 import br.com.itau.accountms.exception.response.StandardError;
 import jakarta.servlet.http.HttpServletRequest;
@@ -18,6 +19,15 @@ public class ControllerExceptionHandler {
         StandardError error = getStandardError(ex.getMessage(), status.value(), request.getRequestURI());
 
         return ResponseEntity.status(status.value())
+                             .body(error);
+    }
+
+    @ExceptionHandler(InvalidEnumConstantException.class)
+    public ResponseEntity<StandardError> invalidEnumConstantException(InvalidEnumConstantException ex,
+                                                                      HttpServletRequest request) {
+        HttpStatus status = HttpStatus.UNPROCESSABLE_ENTITY;
+        StandardError error = getStandardError(ex.getMessage(), status.value(), request.getRequestURI());
+        return ResponseEntity.status(status)
                              .body(error);
     }
 
