@@ -1,6 +1,25 @@
 spring:
   application:
     name: account-ms
+  jpa:
+    open-in-view: false
+  messages:
+    encoding: UTF-8
 
 server:
   port: 8002
+  tomcat:
+    uri-encoding: UTF-8
+  servlet:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+    context-path: /account-service
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka

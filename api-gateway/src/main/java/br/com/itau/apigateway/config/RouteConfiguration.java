@@ -14,6 +14,9 @@ public class RouteConfiguration {
                 .route("user-service", r -> r.path("/users/**")
                                                 .filters(f -> f.prefixPath("/user-service"))
                                                 .uri("lb://user-ms"))
+                .route("account-service", r -> r.path("/accounts/**")
+                                                  .filters(f -> f.prefixPath("/account-service"))
+                                                  .uri("lb://account-ms"))
                 .build();
     }
 
