@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: account-ms
+
+server:
+  port: 8002
