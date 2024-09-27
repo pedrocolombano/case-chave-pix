@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Entity
 @Getter
@@ -18,7 +19,7 @@ import java.time.LocalDateTime;
 public class User {
 
     @Id
-    private Long id;
+    private UUID id;
 
     @Column(length = 14, nullable = false, unique = true)
     private String taxId;

@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -14,11 +15,11 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class AccountDto {
 
-    private Long id;
+    private UUID id;
     private Integer branch;
     private Integer number;
     private String taxId;
-    private Long holderId;
+    private UUID holderId;
     private AccountType accountType;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;

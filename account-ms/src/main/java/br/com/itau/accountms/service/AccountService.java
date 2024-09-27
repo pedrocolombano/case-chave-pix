@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -46,7 +47,7 @@ public class AccountService {
     }
 
     @Transactional(readOnly = true)
-    public AccountDto findById(final Long id) {
+    public AccountDto findById(final UUID id) {
         Account account = accountRepository.findById(id)
                                            .orElseThrow(() -> new ResourceNotFoundException("Conta não encontrada."));
 

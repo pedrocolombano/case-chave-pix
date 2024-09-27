@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/accounts")
@@ -31,7 +32,7 @@ public class AccountController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<AccountDto> findById(@PathVariable Long id) {
+    public ResponseEntity<AccountDto> findById(@PathVariable UUID id) {
         AccountDto response = accountService.findById(id);
         return ResponseEntity.ok(response);
     }

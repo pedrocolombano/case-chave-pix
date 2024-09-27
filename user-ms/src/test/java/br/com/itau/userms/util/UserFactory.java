@@ -7,6 +7,7 @@ import br.com.itau.userms.model.enumerated.PersonType;
 import net.datafaker.Faker;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 public class UserFactory {
 
@@ -25,7 +26,7 @@ public class UserFactory {
         return userDto;
     }
 
-    public static User createUser(Long id,
+    public static User createUser(UUID id,
                                   String document,
                                   String taxId,
                                   PersonType personType,
@@ -46,7 +47,7 @@ public class UserFactory {
         return user;
     }
 
-    public static User createUser(Long id,
+    public static User createUser(UUID id,
                                   String document,
                                   String taxId,
                                   PersonType personType) {
@@ -58,7 +59,7 @@ public class UserFactory {
                           null);
     }
 
-    public static UserDto createUserDto(Long id,
+    public static UserDto createUserDto(UUID id,
                                         String document,
                                         String taxId,
                                         PersonType personType) {

@@ -11,6 +11,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @ExtendWith(SpringExtension.class)
 public class UserMapperTest {
@@ -35,7 +36,7 @@ public class UserMapperTest {
 
     @Test
     public void fromEntityToDtoShouldConvertEntityDataToDto() {
-        User user = UserFactory.createUser(1L,
+        User user = UserFactory.createUser(UUID.randomUUID(),
                                            "123456789",
                                            "12345678901",
                                            PersonType.NATURAL,

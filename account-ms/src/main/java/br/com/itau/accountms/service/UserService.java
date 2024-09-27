@@ -26,7 +26,7 @@ public class UserService {
         newUser.setCreatedAt(LocalDateTime.now());
         newUser.setUpdatedAt(LocalDateTime.now());
 
-        userRepository.save(newUser);
+        userRepository.saveAndFlush(newUser);
 
         return newUser;
     }

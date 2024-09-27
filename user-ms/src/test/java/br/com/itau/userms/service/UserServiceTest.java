@@ -14,6 +14,7 @@ import org.mockito.*;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -35,8 +36,8 @@ public class UserServiceTest {
     @Test
     public void insertShouldSaveUserAndReturnDto() {
         UserInsertDto insertDto = UserFactory.createUserInsertionDto("123456789", "12345678901", "NATURAL");
-        User entity = UserFactory.createUser(1L, "123456789", "12345678901", PersonType.NATURAL);
-        UserDto userDto = UserFactory.createUserDto(1L, "123456789", "12345678901", PersonType.NATURAL);
+        User entity = UserFactory.createUser(UUID.randomUUID(), "123456789", "12345678901", PersonType.NATURAL);
+        UserDto userDto = UserFactory.createUserDto(entity.getId(), "123456789", "12345678901", PersonType.NATURAL);
 
         when(userMapper.fromDtoToEntity(insertDto)).thenReturn(entity);
         when(userMapper.fromEntityToDto(entity)).thenReturn(userDto);
@@ -56,7 +57,7 @@ public class UserServiceTest {
 
     @Test
     public void findByIdShouldReturnUserDtoWhenUserExists() {
-        long existentId = 1L;
+        UUID existentId = UUID.randomUUID();
         User entity = UserFactory.createUser(existentId, "123456789", "12345678901", PersonType.NATURAL);
         UserDto userDto = UserFactory.createUserDto(existentId, "123456789", "12345678901", PersonType.NATURAL);
 
@@ -72,7 +73,7 @@ public class UserServiceTest {
 
     @Test
     public void findByIdShouldThrowResourceNotFoundExceptionWhenUserDoesNotExists() {
-        long nonExistentId = 1L;
+        UUID nonExistentId = UUID.randomUUID();
         when(userRepository.findById(nonExistentId)).thenThrow(ResourceNotFoundException.class);
 
         assertThrows(ResourceNotFoundException.class, () -> userService.findById(nonExistentId));

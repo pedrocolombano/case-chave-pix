@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -31,7 +32,7 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
-    public UserDto findById(final Long id) {
+    public UserDto findById(final UUID id) {
         User user = userRepository.findById(id)
                                   .orElseThrow(() -> new ResourceNotFoundException("O usuário não foi encontrado."));
 

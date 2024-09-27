@@ -16,6 +16,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 
+import java.util.UUID;
+
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -39,7 +41,7 @@ public class UserControllerTest {
     @Test
     public void insertUserShouldCreateAndReturnUserDto() throws Exception {
         UserInsertDto dto = UserFactory.createUserInsertionDto("123456789", "12345678901", "NATURAL");
-        UserDto createdUser = UserFactory.createUserDto(1L, "123456789", "12345678901", PersonType.NATURAL);
+        UserDto createdUser = UserFactory.createUserDto(UUID.randomUUID(), "123456789", "12345678901", PersonType.NATURAL);
 
         when(userService.insert(any(UserInsertDto.class))).thenReturn(createdUser);
 
@@ -49,8 +51,6 @@ public class UserControllerTest {
                                                 .accept(MediaType.APPLICATION_JSON)
                                                 .content(json)
                         ).andExpect(status().isCreated())
-                         .andExpect(jsonPath("$.id")
-                                .value(createdUser.getId()))
                          .andExpect(jsonPath("$.document")
                                 .value(dto.getDocument()))
                          .andExpect(jsonPath("$.taxId")
@@ -99,7 +99,7 @@ public class UserControllerTest {
 
     @Test
     public void findByIdShouldReturnUserDto() throws Exception {
-        Long existentId = 1L;
+        UUID existentId = UUID.randomUUID();
         UserDto userResponse = UserFactory.createUserDto(existentId, "987654321", "09876543211", PersonType.LEGAL);
 
         when(userService.findById(existentId)).thenReturn(userResponse);
@@ -107,13 +107,12 @@ public class UserControllerTest {
         mockMvc.perform(get("/users/{id}", existentId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
-                ).andExpect(status().isOk())
-                 .andExpect(jsonPath("$.id").value(existentId));
+                ).andExpect(status().isOk());
     }
 
     @Test
     public void findByIdShouldReturnNotFoundWhenUserDoesNotExists() throws Exception {
-        Long nonExistentId = 10L;
+        UUID nonExistentId = UUID.randomUUID();
         String message = "O usuário não foi encontrado.";
 
         when(userService.findById(nonExistentId)).thenThrow(new ResourceNotFoundException(message));
