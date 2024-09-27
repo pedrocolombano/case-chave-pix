@@ -5,6 +5,7 @@ import br.com.itau.transactionalaccountms.model.dto.request.param.TransactionAcc
 import br.com.itau.transactionalaccountms.model.dto.response.TransactionAccountDto;
 import br.com.itau.transactionalaccountms.repository.view.TransactionAccountView;
 import br.com.itau.transactionalaccountms.service.TransactionAccountService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +22,7 @@ public class TransactionAccountController {
     private final TransactionAccountService transactionAccountService;
 
     @PostMapping
-    public ResponseEntity<TransactionAccountDto> create(@RequestBody TransactionAccountRegistrationDto registrationDto) {
+    public ResponseEntity<TransactionAccountDto> create(@RequestBody @Valid TransactionAccountRegistrationDto registrationDto) {
         TransactionAccountDto response = transactionAccountService.create(registrationDto);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
                                              .path("/{id}")
