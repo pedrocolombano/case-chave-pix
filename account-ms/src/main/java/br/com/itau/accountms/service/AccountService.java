@@ -1,5 +1,6 @@
 package br.com.itau.accountms.service;
 
+import br.com.itau.accountms.exception.AccountException;
 import br.com.itau.accountms.exception.ResourceNotFoundException;
 import br.com.itau.accountms.mapper.AccountMapper;
 import br.com.itau.accountms.model.dto.request.AccountRegistrationDto;
@@ -24,6 +25,8 @@ public class AccountService {
 
     @Transactional
     public AccountDto register(final AccountRegistrationDto accountRegistrationDto) {
+        validateIfAccountExists(accountRegistrationDto);
+
         User accountHolder = userService.insert(accountRegistrationDto.getHolder());
         Account account = accountMapper.fromDtoToEntity(accountRegistrationDto);
 
@@ -33,6 +36,13 @@ public class AccountService {
 
         accountRepository.save(account);
         return accountMapper.fromEntityToDto(account);
+    }
+
+    private void validateIfAccountExists(AccountRegistrationDto accountRegistrationDto) {
+        boolean alreadyHasAccount = accountRepository.existsByHolderTaxId(accountRegistrationDto.getHolder().getTaxId());
+        if (alreadyHasAccount) {
+            throw new AccountException("O CPF/CNPJ informado não está disponível.");
+        }
     }
 
     @Transactional(readOnly = true)

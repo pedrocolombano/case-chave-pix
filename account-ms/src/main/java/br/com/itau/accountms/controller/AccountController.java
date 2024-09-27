@@ -3,6 +3,7 @@ package br.com.itau.accountms.controller;
 import br.com.itau.accountms.model.dto.request.AccountRegistrationDto;
 import br.com.itau.accountms.model.dto.response.AccountDto;
 import br.com.itau.accountms.service.AccountService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +19,7 @@ public class AccountController {
     private final AccountService accountService;
 
     @PostMapping
-    public ResponseEntity<AccountDto> register(@RequestBody AccountRegistrationDto accountRegistrationDto) {
+    public ResponseEntity<AccountDto> register(@RequestBody @Valid AccountRegistrationDto accountRegistrationDto) {
         AccountDto response = accountService.register(accountRegistrationDto);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
                                              .path("/{id}")
