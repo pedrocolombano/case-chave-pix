@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: transaction-account-ms
+
+server:
+  port: 8003
