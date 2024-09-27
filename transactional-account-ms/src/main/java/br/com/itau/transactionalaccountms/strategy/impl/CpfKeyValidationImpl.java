@@ -45,7 +45,7 @@ public class CpfKeyValidationImpl implements KeyValidationStrategy {
             int secondVerifierDigitLimit = 10;
             char secondDigit = getVerifierDigit(cpf, secondVerifierDigitLimit, secondMultiplierDigit);
 
-            if (!(firstDigit == cpf.charAt(9)) && !(secondDigit == cpf.charAt(10))) {
+            if (!(firstDigit == cpf.charAt(9)) || !(secondDigit == cpf.charAt(10))) {
                 throw new KeyRegistrationException("O CPF informado não é válido.");
             }
         } catch (InputMismatchException e) {
@@ -53,18 +53,18 @@ public class CpfKeyValidationImpl implements KeyValidationStrategy {
         }
     }
 
-    public char getVerifierDigit(final String key, int startingDigit, final int digitMultiplier) {
+    private char getVerifierDigit(final String key, int startingDigit, final int digitMultiplier) {
         int sum = 0;
         int finalMultiplier = digitMultiplier;
 
         for (int i = 0; i < startingDigit; i++) {
             int number = key.charAt(i) - ASC_II_0_CHARACTER;
-            sum = sum + (number * finalMultiplier);
-            finalMultiplier = finalMultiplier - 1;
+            sum += number * finalMultiplier;
+            finalMultiplier--;
         }
 
         int divisionRemainder = 11 - (sum % 11);
-        if (divisionRemainder == 10 || divisionRemainder == 11) {
+        if (divisionRemainder >= 10) {
             return '0';
         }
         return (char) (divisionRemainder + ASC_II_0_CHARACTER);
