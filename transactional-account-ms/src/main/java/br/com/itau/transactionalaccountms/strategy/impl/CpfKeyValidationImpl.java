@@ -5,7 +5,6 @@ import br.com.itau.transactionalaccountms.model.enumerated.KeyType;
 import br.com.itau.transactionalaccountms.strategy.KeyValidationStrategy;
 import org.springframework.stereotype.Service;
 
-import java.util.InputMismatchException;
 import java.util.Set;
 
 @Service
@@ -48,7 +47,7 @@ public class CpfKeyValidationImpl implements KeyValidationStrategy {
             if (!(firstDigit == cpf.charAt(9)) || !(secondDigit == cpf.charAt(10))) {
                 throw new KeyRegistrationException("O CPF informado não é válido.");
             }
-        } catch (InputMismatchException e) {
+        } catch (Exception e) {
             throw new KeyRegistrationException("O CPF informado não possui um formato válido.");
         }
     }

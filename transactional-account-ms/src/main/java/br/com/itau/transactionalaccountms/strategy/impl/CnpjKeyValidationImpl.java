@@ -5,7 +5,6 @@ import br.com.itau.transactionalaccountms.model.enumerated.KeyType;
 import br.com.itau.transactionalaccountms.strategy.KeyValidationStrategy;
 import org.springframework.stereotype.Service;
 
-import java.util.InputMismatchException;
 import java.util.Set;
 
 @Service
@@ -48,7 +47,7 @@ public class CnpjKeyValidationImpl implements KeyValidationStrategy {
             if (!(firstVerifierDigit == cnpj.charAt(12)) || !(secondVerifierDigit == cnpj.charAt(13))) {
                 throw new KeyRegistrationException("O CNPJ informado não possui um formato válido.");
             }
-        } catch (InputMismatchException erro) {
+        } catch (Exception erro) {
             throw new KeyRegistrationException("O CNPJ informado não possui um formato válido.");
         }
     }
