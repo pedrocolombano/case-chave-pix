@@ -21,6 +21,12 @@ public class User {
     @Id
     private UUID id;
 
+    @Column(length = 30, nullable = false)
+    private String firstName;
+
+    @Column(length = 45, nullable = false)
+    private String surname;
+
     @Column(length = 14, nullable = false, unique = true)
     private String taxId;
 

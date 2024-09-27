@@ -11,6 +11,8 @@ public class UserMapper {
         User user = new User();
 
         user.setId(dto.getId());
+        user.setFirstName(dto.getFirstName());
+        user.setSurname(dto.getSurname());
         user.setPersonType(dto.getPersonType());
         user.setTaxId(dto.getTaxId());
 
