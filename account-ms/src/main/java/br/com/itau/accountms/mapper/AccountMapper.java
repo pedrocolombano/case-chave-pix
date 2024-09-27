@@ -35,6 +35,7 @@ public class AccountMapper {
         dto.setHolderSurname(accountHolder.getSurname());
         dto.setTaxId(accountHolder.getTaxId());
         dto.setHolderId(accountHolder.getId());
+        dto.setHolderPersonType(accountHolder.getPersonType());
 
         return dto;
     }

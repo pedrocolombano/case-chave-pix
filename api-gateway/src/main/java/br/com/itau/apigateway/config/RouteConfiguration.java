@@ -17,7 +17,9 @@ public class RouteConfiguration {
                 .route("account-service", r -> r.path("/accounts/**")
                                                    .filters(f -> f.prefixPath("/account-service"))
                                                    .uri("lb://account-ms"))
+                .route("transaction-account-service", r -> r.path("/transaction-accounts/**")
+                                                               .filters(f -> f.prefixPath("/transaction-account-service"))
+                                                               .uri("lb://transaction-account-ms"))
                 .build();
     }
-
 }

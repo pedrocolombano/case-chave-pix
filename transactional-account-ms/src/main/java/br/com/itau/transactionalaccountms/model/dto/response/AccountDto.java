@@ -1,7 +1,7 @@
-package br.com.itau.accountms.model.dto.response;
+package br.com.itau.transactionalaccountms.model.dto.response;
 
-import br.com.itau.accountms.model.enumerated.AccountType;
-import br.com.itau.accountms.model.enumerated.PersonType;
+import br.com.itau.transactionalaccountms.model.enumerated.AccountType;
+import br.com.itau.transactionalaccountms.model.enumerated.PersonType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
