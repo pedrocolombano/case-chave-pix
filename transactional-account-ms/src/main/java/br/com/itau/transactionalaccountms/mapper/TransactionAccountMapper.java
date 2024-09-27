@@ -1,6 +1,5 @@
 package br.com.itau.transactionalaccountms.mapper;
 
-import br.com.itau.transactionalaccountms.model.dto.request.TransactionAccountRegistrationDto;
 import br.com.itau.transactionalaccountms.model.dto.response.TransactionAccountDto;
 import br.com.itau.transactionalaccountms.model.entity.TransactionAccount;
 import br.com.itau.transactionalaccountms.model.enumerated.KeyType;
@@ -9,11 +8,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class TransactionAccountMapper {
 
-    public TransactionAccount fromDtoToEntity(TransactionAccountRegistrationDto dto) {
+    public TransactionAccount create(final String key, final KeyType keyType) {
         TransactionAccount entity = new TransactionAccount();
 
-        entity.setKey(dto.getKey());
-        entity.setKeyType(KeyType.getByName(dto.getKeyType()));
+        entity.setKey(key);
+        entity.setKeyType(keyType);
 
         return entity;
     }

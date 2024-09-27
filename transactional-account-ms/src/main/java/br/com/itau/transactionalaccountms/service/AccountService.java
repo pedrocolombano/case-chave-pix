@@ -20,6 +20,11 @@ public class AccountService {
     private final AccountRepository accountRepository;
 
     public Account getAccountById(final UUID id) {
+        return accountRepository.findById(id)
+                                .orElseGet(() -> create(id));
+    }
+
+    private Account create(final UUID id) {
         AccountDto accountDto = accountClient.findById(id);
 
         Account account = accountMapper.fromDtoToEntity(accountDto);
@@ -27,6 +32,7 @@ public class AccountService {
         account.setUpdatedAt(LocalDateTime.now());
 
         accountRepository.saveAndFlush(account);
+
         return account;
     }
 
