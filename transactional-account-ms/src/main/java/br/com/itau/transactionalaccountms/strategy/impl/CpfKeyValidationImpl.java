@@ -33,38 +33,40 @@ public class CpfKeyValidationImpl implements KeyValidationStrategy {
     public void validate(final String key) {
         String cpf = key.replace(".", "").replace("-", "");
         if (cpf.length() != 11 || INVALID_CPFS.contains(key)) {
-            throw new KeyRegistrationException("O CPF informado para cadastro é inválido");
+            throw new KeyRegistrationException("O CPF informado para cadastro é inválido.");
         }
+
         try {
             int firstMultiplierDigit = 10;
-            char firstDigit = getVerifierDigit(key, firstMultiplierDigit);
+            int firstVerifierDigitLimit = 9;
+            char firstDigit = getVerifierDigit(cpf, firstVerifierDigitLimit, firstMultiplierDigit);
 
             int secondMultiplierDigit = 11;
-            char secondDigit = getVerifierDigit(key, secondMultiplierDigit);
+            int secondVerifierDigitLimit = 10;
+            char secondDigit = getVerifierDigit(cpf, secondVerifierDigitLimit, secondMultiplierDigit);
 
-            if (!(firstDigit == key.charAt(9)) && !(secondDigit == key.charAt(10))) {
+            if (!(firstDigit == cpf.charAt(9)) && !(secondDigit == cpf.charAt(10))) {
                 throw new KeyRegistrationException("O CPF informado não é válido.");
             }
-        } catch (InputMismatchException erro) {
+        } catch (InputMismatchException e) {
             throw new KeyRegistrationException("O CPF informado não possui um formato válido.");
         }
     }
 
-    public char getVerifierDigit(final String key, final int digitMultiplier) {
+    public char getVerifierDigit(final String key, int startingDigit, final int digitMultiplier) {
         int sum = 0;
         int finalMultiplier = digitMultiplier;
-        int divisionRemainer = 0;
 
-        for (int i = 0; i < 9; i++) {
+        for (int i = 0; i < startingDigit; i++) {
             int number = key.charAt(i) - ASC_II_0_CHARACTER;
-            sum = sum + (number * digitMultiplier);
+            sum = sum + (number * finalMultiplier);
             finalMultiplier = finalMultiplier - 1;
         }
 
-        divisionRemainer = 11 - (sum % 11);
-        if (divisionRemainer == 10 || divisionRemainer == 11) {
+        int divisionRemainder = 11 - (sum % 11);
+        if (divisionRemainder == 10 || divisionRemainder == 11) {
             return '0';
         }
-        return (char) (divisionRemainer + ASC_II_0_CHARACTER);
+        return (char) (divisionRemainder + ASC_II_0_CHARACTER);
     }
 }
