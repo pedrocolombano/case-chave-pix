@@ -31,6 +31,8 @@ public class AccountMapper {
         dto.setUpdatedAt(account.getUpdatedAt());
 
         User accountHolder = account.getHolder();
+        dto.setHolderFirstName(accountHolder.getFirstName());
+        dto.setHolderSurname(accountHolder.getSurname());
         dto.setTaxId(accountHolder.getTaxId());
         dto.setHolderId(accountHolder.getId());
 

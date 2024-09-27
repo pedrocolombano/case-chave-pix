@@ -20,6 +20,8 @@ public class AccountDto {
     private Integer number;
     private String taxId;
     private UUID holderId;
+    private String holderFirstName;
+    private String holderSurname;
     private AccountType accountType;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
