@@ -10,6 +10,7 @@ import br.com.itau.transactionalaccountms.model.dto.response.TransactionAccountD
 import br.com.itau.transactionalaccountms.model.entity.Account;
 import br.com.itau.transactionalaccountms.model.entity.TransactionAccount;
 import br.com.itau.transactionalaccountms.model.enumerated.KeyType;
+import br.com.itau.transactionalaccountms.model.enumerated.PersonType;
 import br.com.itau.transactionalaccountms.repository.TransactionAccountRepository;
 import br.com.itau.transactionalaccountms.repository.view.TransactionAccountView;
 import lombok.RequiredArgsConstructor;
@@ -18,10 +19,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 public class TransactionAccountService {
+
+    private static final int NATURAL_PERSON_MAX_KEYS_AMOUNT = 5;
+    private static final int LEGAL_PERSON_MAX_KEYS_AMOUNT = 20;
 
     private final AccountService accountService;
     private final KeyValidationService keyValidationService;
@@ -37,6 +42,7 @@ public class TransactionAccountService {
         validateIfKeyAlreadyExists(registrationDto.getKey());
 
         Account account = accountService.getAccountById(registrationDto.getAccountId());
+        validateAccountTotalKeys(account.getId(), account.getHolderType());
 
         TransactionAccount transactionAccount = transactionAccountMapper.create(registrationDto.getKey(), keyType);
 
@@ -53,6 +59,20 @@ public class TransactionAccountService {
         if (isKeyAlreadyRegistered) {
             throw new KeyRegistrationException("A chave informada para cadastro já está em uso.");
         }
+    }
+
+    private void validateAccountTotalKeys(final UUID accountId, final PersonType accountPersonType) {
+        int totalKeysAmount = transactionAccountRepository.countAllByAccountId(accountId);
+
+        boolean isNotAvailableForNaturalPerson = PersonType.NATURAL.equals(accountPersonType)
+                                                        && totalKeysAmount == NATURAL_PERSON_MAX_KEYS_AMOUNT ;
+        boolean isNotAvailableForLegalPerson = PersonType.LEGAL.equals(accountPersonType)
+                                                        && totalKeysAmount == LEGAL_PERSON_MAX_KEYS_AMOUNT;
+
+        if (isNotAvailableForNaturalPerson || isNotAvailableForLegalPerson) {
+            throw new KeyRegistrationException("O limite de chaves cadastradas para esta conta foi atingido.");
+        }
+
     }
 
     @Transactional(readOnly = true)

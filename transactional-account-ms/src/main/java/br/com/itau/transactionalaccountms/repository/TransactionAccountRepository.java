@@ -12,6 +12,8 @@ public interface TransactionAccountRepository extends JpaRepository<TransactionA
 
     boolean existsByKeyIgnoreCase(String key);
 
+    int countAllByAccountId(UUID accountId);
+
     @Query(value = "SELECT t.id, "
             + "            t.key_type       AS keyType, "
             + "            t.key, "
