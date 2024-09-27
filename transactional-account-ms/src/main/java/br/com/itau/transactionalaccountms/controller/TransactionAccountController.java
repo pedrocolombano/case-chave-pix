@@ -1,17 +1,17 @@
 package br.com.itau.transactionalaccountms.controller;
 
 import br.com.itau.transactionalaccountms.model.dto.request.TransactionAccountRegistrationDto;
+import br.com.itau.transactionalaccountms.model.dto.request.param.TransactionAccountSearchDto;
 import br.com.itau.transactionalaccountms.model.dto.response.TransactionAccountDto;
+import br.com.itau.transactionalaccountms.repository.view.TransactionAccountView;
 import br.com.itau.transactionalaccountms.service.TransactionAccountService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping("/transaction-accounts")
@@ -30,6 +30,12 @@ public class TransactionAccountController {
 
         return ResponseEntity.created(uri)
                              .body(response);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<TransactionAccountView>> getAll(TransactionAccountSearchDto searchDto) {
+        List<TransactionAccountView> response = transactionAccountService.findAll(searchDto);
+        return ResponseEntity.ok(response);
     }
 
 }
