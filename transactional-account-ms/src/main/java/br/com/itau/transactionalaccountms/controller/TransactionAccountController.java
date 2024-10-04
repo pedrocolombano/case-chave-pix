@@ -13,6 +13,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/transaction-accounts")
@@ -36,6 +37,12 @@ public class TransactionAccountController {
     @GetMapping
     public ResponseEntity<List<TransactionAccountView>> getAll(TransactionAccountSearchDto searchDto) {
         List<TransactionAccountView> response = transactionAccountService.findAll(searchDto);
+        return ResponseEntity.ok(response);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<TransactionAccountDto> inactivateKeyById(@PathVariable UUID id) {
+        TransactionAccountDto response = transactionAccountService.inactiveKey(id);
         return ResponseEntity.ok(response);
     }
 

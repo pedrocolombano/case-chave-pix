@@ -1,6 +1,6 @@
 package br.com.itau.transactionalaccountms.strategy.impl;
 
-import br.com.itau.transactionalaccountms.exception.KeyRegistrationException;
+import br.com.itau.transactionalaccountms.exception.KeyValidationException;
 import br.com.itau.transactionalaccountms.model.enumerated.KeyType;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -20,7 +20,7 @@ class EmailKeyValidationImplTest {
 
     @Test
     public void validateShouldThrowKeyRegistrationExceptionWhenEmailDoesNotContainsAtCharacter() {
-        assertThrows(KeyRegistrationException.class, () ->
+        assertThrows(KeyValidationException.class, () ->
                             emailKeyValidation.validate("pedromaiacolombanogmail.com"));
     }
 

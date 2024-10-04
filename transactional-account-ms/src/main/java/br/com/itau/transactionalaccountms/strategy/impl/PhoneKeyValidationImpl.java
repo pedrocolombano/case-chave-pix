@@ -1,6 +1,6 @@
 package br.com.itau.transactionalaccountms.strategy.impl;
 
-import br.com.itau.transactionalaccountms.exception.KeyRegistrationException;
+import br.com.itau.transactionalaccountms.exception.KeyValidationException;
 import br.com.itau.transactionalaccountms.model.enumerated.KeyType;
 import br.com.itau.transactionalaccountms.strategy.KeyValidationStrategy;
 import org.springframework.stereotype.Service;
@@ -20,12 +20,12 @@ public class PhoneKeyValidationImpl implements KeyValidationStrategy {
     @Override
     public void validate(final String key) {
         if (!key.startsWith("+")) {
-            throw new KeyRegistrationException("O número do telefone deve iniciar com o caractere +.");
+            throw new KeyValidationException("O número do telefone deve iniciar com o caractere +.");
         }
 
         String phoneNumber = key.replace("+", "");
         if (phoneNumber.length() < 13) {
-            throw new KeyRegistrationException("O número do telefone deve possuir 13 ou 14 caracteres.");
+            throw new KeyValidationException("O número do telefone deve possuir 13 ou 14 caracteres.");
         }
 
         String countryCode = phoneNumber.substring(0, 2);
@@ -41,19 +41,19 @@ public class PhoneKeyValidationImpl implements KeyValidationStrategy {
 
     private void validateCountryCode(final String countryCode) {
         if (!countryCode.matches(COUNTRY_CODE_REGEX)) {
-            throw new KeyRegistrationException("O código do país deve ser numérico e possuir 2 dígitos.");
+            throw new KeyValidationException("O código do país deve ser numérico e possuir 2 dígitos.");
         }
     }
 
     private void validateDdd(final String ddd) {
         if (!ddd.matches(DDD_REGEX)) {
-            throw new KeyRegistrationException("O DDD deve ser numérico e possuir até 3 dígitos.");
+            throw new KeyValidationException("O DDD deve ser numérico e possuir até 3 dígitos.");
         }
     }
 
     private void validatePhoneNumber(final String phoneNumber) {
         if (!phoneNumber.matches(NUMBER_REGEX)) {
-            throw new KeyRegistrationException("O número do telefone deve ser numérico e possuir 9 dígitos.");
+            throw new KeyValidationException("O número do telefone deve ser numérico e possuir 9 dígitos.");
         }
     }
 }

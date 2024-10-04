@@ -1,6 +1,6 @@
 package br.com.itau.transactionalaccountms.strategy.impl;
 
-import br.com.itau.transactionalaccountms.exception.KeyRegistrationException;
+import br.com.itau.transactionalaccountms.exception.KeyValidationException;
 import br.com.itau.transactionalaccountms.model.enumerated.KeyType;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -23,7 +23,7 @@ public class CnpjKeyValidationImplTest {
     @Test
     void shouldThrowExceptionWhenCnpjHasInvalidLength() {
         String invalidCnpj = "123456789";
-        assertThrows(KeyRegistrationException.class, () -> cnpjKeyValidation.validate(invalidCnpj));
+        assertThrows(KeyValidationException.class, () -> cnpjKeyValidation.validate(invalidCnpj));
     }
 
     @ParameterizedTest
@@ -40,13 +40,13 @@ public class CnpjKeyValidationImplTest {
                             "99999999999999"
     })
     void shouldThrowExceptionWhenCnpjIsInvalidPattern(String invalidCnpj) {
-        assertThrows(KeyRegistrationException.class, () -> cnpjKeyValidation.validate(invalidCnpj));
+        assertThrows(KeyValidationException.class, () -> cnpjKeyValidation.validate(invalidCnpj));
     }
 
     @Test
     void shouldThrowExceptionWhenCnpjHasInvalidVerifierDigits() {
         String invalidVerifierCnpj = "75944206000138";
-        assertThrows(KeyRegistrationException.class, () -> cnpjKeyValidation.validate(invalidVerifierCnpj));
+        assertThrows(KeyValidationException.class, () -> cnpjKeyValidation.validate(invalidVerifierCnpj));
     }
 
     @Test
@@ -58,7 +58,7 @@ public class CnpjKeyValidationImplTest {
     @Test
     void shouldThrowExceptionWhenCnpjContainsInvalidCharacters() {
         String invalidCnpj = "!2.3B5.678/0001-95";
-        assertThrows(KeyRegistrationException.class, () -> cnpjKeyValidation.validate(invalidCnpj));
+        assertThrows(KeyValidationException.class, () -> cnpjKeyValidation.validate(invalidCnpj));
     }
 
 }

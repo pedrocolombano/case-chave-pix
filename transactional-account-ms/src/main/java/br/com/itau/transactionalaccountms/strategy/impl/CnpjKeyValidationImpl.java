@@ -1,6 +1,6 @@
 package br.com.itau.transactionalaccountms.strategy.impl;
 
-import br.com.itau.transactionalaccountms.exception.KeyRegistrationException;
+import br.com.itau.transactionalaccountms.exception.KeyValidationException;
 import br.com.itau.transactionalaccountms.model.enumerated.KeyType;
 import br.com.itau.transactionalaccountms.strategy.KeyValidationStrategy;
 import org.springframework.stereotype.Service;
@@ -34,7 +34,7 @@ public class CnpjKeyValidationImpl implements KeyValidationStrategy {
                          .replace("/", "")
                          .replace("-", "");
         if (cnpj.length() != 14 || INVALID_CNPJS.contains(key)) {
-            throw new KeyRegistrationException("O CPF informado para cadastro é inválido.");
+            throw new KeyValidationException("O CPF informado para cadastro é inválido.");
         }
 
         try {
@@ -45,10 +45,10 @@ public class CnpjKeyValidationImpl implements KeyValidationStrategy {
             char secondVerifierDigit = getVerifierDigit(cnpj, secondStartingDigit);
 
             if (!(firstVerifierDigit == cnpj.charAt(12)) || !(secondVerifierDigit == cnpj.charAt(13))) {
-                throw new KeyRegistrationException("O CNPJ informado não possui um formato válido.");
+                throw new KeyValidationException("O CNPJ informado não possui um formato válido.");
             }
         } catch (Exception erro) {
-            throw new KeyRegistrationException("O CNPJ informado não possui um formato válido.");
+            throw new KeyValidationException("O CNPJ informado não possui um formato válido.");
         }
     }
 

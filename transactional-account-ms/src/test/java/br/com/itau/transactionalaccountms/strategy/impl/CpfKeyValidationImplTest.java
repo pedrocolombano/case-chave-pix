@@ -1,6 +1,6 @@
 package br.com.itau.transactionalaccountms.strategy.impl;
 
-import br.com.itau.transactionalaccountms.exception.KeyRegistrationException;
+import br.com.itau.transactionalaccountms.exception.KeyValidationException;
 import br.com.itau.transactionalaccountms.model.enumerated.KeyType;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -23,7 +23,7 @@ public class CpfKeyValidationImplTest {
     @Test
     void shouldThrowExceptionWhenCpfIsInvalidLength() {
         String invalidCpf = "12345678";
-        assertThrows(KeyRegistrationException.class, () -> cpfKeyValidation.validate(invalidCpf));
+        assertThrows(KeyValidationException.class, () -> cpfKeyValidation.validate(invalidCpf));
     }
 
     @ParameterizedTest
@@ -40,14 +40,14 @@ public class CpfKeyValidationImplTest {
             "99999999999"
     })
     void shouldThrowExceptionWhenCpfIsInInvalidPattern(String invalidCpf) {
-        assertThrows(KeyRegistrationException.class, () -> cpfKeyValidation.validate(invalidCpf));
+        assertThrows(KeyValidationException.class, () -> cpfKeyValidation.validate(invalidCpf));
     }
 
     @Test
     void shouldThrowExceptionWhenCpfHasInvalidVerifierDigits() {
         String invalidVerifierCpf = "58137208023";
 
-        assertThrows(KeyRegistrationException.class, () -> cpfKeyValidation.validate(invalidVerifierCpf),
+        assertThrows(KeyValidationException.class, () -> cpfKeyValidation.validate(invalidVerifierCpf),
                 "Deve lançar exceção quando o CPF possui dígitos verificadores inválidos.");
     }
 
@@ -61,7 +61,7 @@ public class CpfKeyValidationImplTest {
     void shouldThrowExceptionWhenCpfContainsInvalidCharacters() {
         String invalidCpf = "1@3.4&6.7+9-09";
 
-        assertThrows(KeyRegistrationException.class, () -> cpfKeyValidation.validate(invalidCpf));
+        assertThrows(KeyValidationException.class, () -> cpfKeyValidation.validate(invalidCpf));
     }
 
 }

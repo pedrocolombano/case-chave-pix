@@ -1,7 +1,7 @@
 package br.com.itau.transactionalaccountms.service;
 
 import br.com.itau.transactionalaccountms.exception.InvalidParameterException;
-import br.com.itau.transactionalaccountms.exception.KeyRegistrationException;
+import br.com.itau.transactionalaccountms.exception.KeyValidationException;
 import br.com.itau.transactionalaccountms.exception.ResourceNotFoundException;
 import br.com.itau.transactionalaccountms.mapper.TransactionAccountMapper;
 import br.com.itau.transactionalaccountms.model.dto.request.TransactionAccountRegistrationDto;
@@ -57,7 +57,7 @@ public class TransactionAccountService {
     private void validateIfKeyAlreadyExists(final String key) {
         boolean isKeyAlreadyRegistered = transactionAccountRepository.existsByKeyIgnoreCase(key);
         if (isKeyAlreadyRegistered) {
-            throw new KeyRegistrationException("A chave informada para cadastro já está em uso.");
+            throw new KeyValidationException("A chave informada para cadastro já está em uso.");
         }
     }
 
@@ -70,7 +70,7 @@ public class TransactionAccountService {
                                                         && totalKeysAmount == LEGAL_PERSON_MAX_KEYS_AMOUNT;
 
         if (isNotAvailableForNaturalPerson || isNotAvailableForLegalPerson) {
-            throw new KeyRegistrationException("O limite de chaves cadastradas para esta conta foi atingido.");
+            throw new KeyValidationException("O limite de chaves cadastradas para esta conta foi atingido.");
         }
 
     }
@@ -97,4 +97,19 @@ public class TransactionAccountService {
         }
     }
 
+    @Transactional
+    public TransactionAccountDto inactiveKey(final UUID id) {
+        TransactionAccount transactionAccount = transactionAccountRepository.findById(id)
+                                                                            .orElseThrow(() -> new ResourceNotFoundException("A chave solicitada não foi encontrada."));
+
+        if (transactionAccount.getDeactivatedAt() != null) {
+            throw new KeyValidationException("A chave informada já está desativada");
+        }
+
+        transactionAccount.setUpdatedAt(LocalDateTime.now());
+        transactionAccount.setDeactivatedAt(LocalDateTime.now());
+
+        transactionAccountRepository.save(transactionAccount);
+        return transactionAccountMapper.fromEntityToDto(transactionAccount);
+    }
 }

@@ -1,6 +1,6 @@
 package br.com.itau.transactionalaccountms.strategy.impl;
 
-import br.com.itau.transactionalaccountms.exception.KeyRegistrationException;
+import br.com.itau.transactionalaccountms.exception.KeyValidationException;
 import br.com.itau.transactionalaccountms.model.enumerated.KeyType;
 import br.com.itau.transactionalaccountms.strategy.KeyValidationStrategy;
 import org.springframework.stereotype.Service;
@@ -32,7 +32,7 @@ public class CpfKeyValidationImpl implements KeyValidationStrategy {
     public void validate(final String key) {
         String cpf = key.replace(".", "").replace("-", "");
         if (cpf.length() != 11 || INVALID_CPFS.contains(key)) {
-            throw new KeyRegistrationException("O CPF informado para cadastro é inválido.");
+            throw new KeyValidationException("O CPF informado para cadastro é inválido.");
         }
 
         try {
@@ -45,10 +45,10 @@ public class CpfKeyValidationImpl implements KeyValidationStrategy {
             char secondDigit = getVerifierDigit(cpf, secondVerifierDigitLimit, secondMultiplierDigit);
 
             if (!(firstDigit == cpf.charAt(9)) || !(secondDigit == cpf.charAt(10))) {
-                throw new KeyRegistrationException("O CPF informado não é válido.");
+                throw new KeyValidationException("O CPF informado não é válido.");
             }
         } catch (Exception e) {
-            throw new KeyRegistrationException("O CPF informado não possui um formato válido.");
+            throw new KeyValidationException("O CPF informado não possui um formato válido.");
         }
     }
 

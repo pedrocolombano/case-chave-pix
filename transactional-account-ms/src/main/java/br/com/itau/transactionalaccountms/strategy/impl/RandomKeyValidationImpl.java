@@ -1,6 +1,6 @@
 package br.com.itau.transactionalaccountms.strategy.impl;
 
-import br.com.itau.transactionalaccountms.exception.KeyRegistrationException;
+import br.com.itau.transactionalaccountms.exception.KeyValidationException;
 import br.com.itau.transactionalaccountms.model.enumerated.KeyType;
 import br.com.itau.transactionalaccountms.strategy.KeyValidationStrategy;
 import org.springframework.stereotype.Service;
@@ -21,7 +21,7 @@ public class RandomKeyValidationImpl implements KeyValidationStrategy {
     @Override
     public void validate(final String key) {
         if (key.length() < 32 || key.length() > 36) {
-            throw new KeyRegistrationException("A chave aleatória informada é inválida, deve possuir 32 ou 36 caracteres.");
+            throw new KeyValidationException("A chave aleatória informada é inválida, deve possuir 32 ou 36 caracteres.");
         }
 
         try {
@@ -32,7 +32,7 @@ public class RandomKeyValidationImpl implements KeyValidationStrategy {
                 UUID.fromString(key);
             }
         } catch (Exception e) {
-            throw new KeyRegistrationException("A chave aleatória informada é inválida.");
+            throw new KeyValidationException("A chave aleatória informada é inválida.");
         }
     }
 }
